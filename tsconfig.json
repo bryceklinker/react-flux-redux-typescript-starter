@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "alwaysStrict": true,
+        "jsx": "react",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "target": "es5"
+    }
+}
