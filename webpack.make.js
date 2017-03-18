@@ -5,12 +5,19 @@ var webpack = require('webpack');
 module.exports = function make(env) {
     return {
         devtool: 'source-map',
-        target: 'web',
-        entry: getEntry(env),
-        output:  {
-            path: path.join(__dirname, 'dist'),
-            filename: 'js/[name].js',
+        entry: [
+            'webpack/hot/dev-server',
+            'webpack-hot-middleware/client?reload=true',
+            './src/index.tsx'
+        ],
+        output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: 'js/index.js',
+            publicPath: '/',
             sourceMapFilename: '[file].map'
+        },
+        devServer: {
+            contentBase: path.resolve(__dirname, 'dist')
         },
         resolve: {
             extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
@@ -45,6 +52,7 @@ module.exports = function make(env) {
 function getPlugins(env) {
     let plugins = [
         new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             inject: 'body',
@@ -60,15 +68,6 @@ function getPlugins(env) {
     }
 
     return plugins;
-}
-
-function getEntry(env) {
-    if (isTest(env)) 
-        return undefined;
-
-    return {
-        index: './src/index.tsx'
-    };
 }
 
 function isProd(env) {

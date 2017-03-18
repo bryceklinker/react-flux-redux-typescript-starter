@@ -7,9 +7,8 @@
   "license": "MIT",
   "scripts": {
     "prestart": "ts-node ./tools/startMessage.ts",
-    "start": "npm-run-all --parallel test:watch start:server open:browser",
-    "open:browser": "ts-node ./tools/openBrowser.ts",
-    "start:server": "webpack-dev-server --config ./webpack.dev.js --history-api-fallback --hot",
+    "start": "npm-run-all --parallel test:watch start:server",
+    "start:server": "ts-node ./tools/startServer.ts",
     "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.spec.ts\"",
     "test:watch": "npm run test -- --watch"
   },
@@ -29,6 +28,8 @@
     "@types/react-tap-event-plugin": "0.0.30",
     "@types/redux-thunk": "2.1.0",
     "@types/webpack": "2.2.11",
+    "@types/webpack-dev-middleware": "^1.9.1",
+    "@types/webpack-hot-middleware": "^2.15.0",
     "awesome-typescript-loader": "3.1.2",
     "colors": "1.1.2",
     "css-loader": "0.27.3",
@@ -60,6 +61,8 @@
     "tslint-react": "2.5.0",
     "typescript": "2.2.1",
     "webpack": "2.2.1",
-    "webpack-dev-server": "2.4.2"
+    "webpack-dev-middleware": "^1.10.1",
+    "webpack-dev-server": "2.4.2",
+    "webpack-hot-middleware": "^2.17.1"
   }
 }
