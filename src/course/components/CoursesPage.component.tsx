@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { ChangeEvent } from 'react';
 
 import { IHaveActionsProps } from '../../shared';
 import { ICourse } from '../models';
+import { Courses } from './Courses';
 
 export interface ICoursePageState {
     course: ICourse;
@@ -27,27 +29,20 @@ export class CoursesPageComponent extends React.Component<ICoursePageProps, ICou
 
     public render() {
         return (
-            <div>
-                <h1>Courses</h1>
-                {this.props.courses.map(this.courseRow)}
-
-                <h2>Add Course</h2>
-
-                <input type="text" onChange={this.onTitleChange} value={this.state.course.title} />
-                <input type="submit" onClick={this.onClickSave} />
-            </div>
+            <Courses
+                course={this.state.course}
+                courses={this.props.courses}
+                onClickSave={this.onClickSave}
+                onTitleChange={this.onTitleChange}
+            />
         );
-    }
-
-    private courseRow(course: ICourse, index: number) {
-        return <div key={index}>{course.title}</div>;
     }
 
     private onClickSave() {
         this.props.actions.createCourse(this.state.course);
     }
 
-    private onTitleChange(event) {
+    private onTitleChange(event: ChangeEvent<HTMLInputElement>) {
         const course = this.state.course;
         course.title = event.target.value;
         this.setState({ course });

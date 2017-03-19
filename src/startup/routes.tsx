@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { IndexRoute, Route } from 'react-router';
-import { AboutPage } from './about';
-import { App } from './App';
-import { HomePage } from './home';
-import { CoursesPage } from './course';
+import { AboutPage } from '../about';
+import { App } from '../app';
+import { HomePage } from '../home';
+import { CoursesPage } from '../course';
 
 export const routes = (
     <Route path="/" component={App}>

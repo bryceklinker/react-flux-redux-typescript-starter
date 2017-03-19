@@ -4,23 +4,22 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { browserHistory } from 'react-router';
 
-import { Navigation, HeaderBar } from './shared';
+import { Navigation } from './Navigation';
+import { HeaderBar } from './HeaderBar';
+import { IHaveActionsProps } from '../../shared';
 
 export interface IAppState {
-    isNavigationOpen: boolean;
 }
 
-export interface IAppProps {
+export interface IAppProps extends IHaveActionsProps {
+    isNavigationOpen: boolean;
     children: any[];
 }
 
-export class App extends React.Component<IAppProps, IAppState> {
+export class AppComponent extends React.Component<IAppProps, IAppState> {
     constructor(props, context) {
         super(props, context);
 
-        this.state = {
-            isNavigationOpen: false,
-        };
         this.toggleNavigation = this.toggleNavigation.bind(this);
         browserHistory.listen((loc) => this.afterLocationChanged());
     }
@@ -30,7 +29,7 @@ export class App extends React.Component<IAppProps, IAppState> {
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)} >
                 <div>
                     <HeaderBar toggleNavigation={this.toggleNavigation} />
-                    <Navigation open={this.state.isNavigationOpen} />
+                    <Navigation open={this.props.isNavigationOpen} />
                     {this.props.children}
                 </div>
             </MuiThemeProvider>
@@ -38,10 +37,10 @@ export class App extends React.Component<IAppProps, IAppState> {
     }
 
     private toggleNavigation() {
-        this.setState({ isNavigationOpen: !this.state.isNavigationOpen });
+        this.props.actions.toggleNavigation();
     }
 
     private afterLocationChanged() {
-        this.setState({ isNavigationOpen: false });
+        this.props.actions.closeNavigation();
     }
 }

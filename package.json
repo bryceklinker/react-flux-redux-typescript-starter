@@ -9,7 +9,7 @@
     "prestart": "ts-node ./tools/startMessage.ts",
     "start": "npm-run-all --parallel test:watch start:server",
     "start:server": "webpack-dev-server --config ./webpack.dev.js",
-    "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.spec.ts\"",
+    "test": "mocha --compilers ts:ts-node/register,tsx:ts-node/register --reporter progress tools/testSetup.js \"src/**/*.spec.ts\"",
     "test:watch": "npm run test -- --watch",
     "tsc": "tsc -p ."
   },
@@ -40,6 +40,7 @@
     "json-loader": "0.5.4",
     "material-ui": "0.17.1",
     "mocha": "3.2.0",
+    "mocha-typescript": "^1.0.23",
     "node-sass": "4.5.0",
     "npm-run-all": "4.0.2",
     "react": "15.4.2",
