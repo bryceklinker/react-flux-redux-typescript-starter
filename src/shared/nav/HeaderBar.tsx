@@ -2,15 +2,11 @@ import * as React from 'react';
 import { AppBar } from 'material-ui';
 
 export interface IHeaderBarProps {
-
+    toggleNavigation: () => void;
 }
-
-const toggleNavigation = () => {
-    console.log('toggling');
-};
 
 export const HeaderBar = (props: IHeaderBarProps) => {
     return (
-        <AppBar onLeftIconButtonTouchTap={toggleNavigation} />
+        <AppBar onLeftIconButtonTouchTap={props.toggleNavigation} />
     );
 };

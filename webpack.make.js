@@ -5,19 +5,30 @@ var webpack = require('webpack');
 module.exports = function make(env) {
     return {
         devtool: 'source-map',
-        entry: [
-            'webpack/hot/dev-server',
-            'webpack-hot-middleware/client?reload=true',
-            './src/index.tsx'
-        ],
+        entry: {
+            app: './src/index.tsx'
+        },
         output: {
             path: path.resolve(__dirname, 'dist'),
-            filename: 'js/index.js',
-            publicPath: '/',
+            filename: 'js/[name].js',
             sourceMapFilename: '[file].map'
         },
         devServer: {
-            contentBase: path.resolve(__dirname, 'dist')
+            historyApiFallback: true,
+            stats: {
+                hash: false,
+                version: false,
+                timings: false,
+                assets: false,
+                chunks: false,
+                modules: false,
+                children: false,
+                source: false,
+                publicPath: false,
+                errors: true,
+                errorDetails: true,
+                warnings: true
+            }
         },
         resolve: {
             extensions: ['.tsx', '.ts', '.jsx', '.js', '.json']
@@ -31,7 +42,12 @@ module.exports = function make(env) {
                     exclude: /node_modules/
                 },
                 {
-                    test: /\.(ts|tsx)$/,
+                    test: /\.tsx$/,
+                    loader: getTsxLoaders(env),
+                    exclude: /node_modules/
+                },
+                {
+                    test: /\.ts$/,
                     loader: 'awesome-typescript-loader',
                     exclude: /node_modules/
                 },
@@ -49,10 +65,19 @@ module.exports = function make(env) {
     };
 }
 
+function getTsxLoaders(env) {
+    if (isDev(env)){
+        return 'react-hot-loader!awesome-typescript-loader';
+    }
+
+    return 'awesome-typescript-loader';
+}
+
 function getPlugins(env) {
     let plugins = [
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             inject: 'body',
@@ -63,8 +88,6 @@ function getPlugins(env) {
 
     if (isProd(env)) {
         plugins.push(new webpack.optimize.UglifyJsPlugin());
-        plugins.push(new webpack.optimize.DedupePlugin());
-        plugins.push(new webpack.optimize.OccurrenceOrderPlugin());
     }
 
     return plugins;

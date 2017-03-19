@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { Drawer, FlatButton } from 'material-ui';
 
 export interface INavigationProps {
-    open?: boolean;
+    open: boolean;
 }
 
 export const Navigation = (props: INavigationProps) => {
@@ -11,7 +11,7 @@ export const Navigation = (props: INavigationProps) => {
         width: '100%',
     };
     return (
-        <Drawer docked={false} open={false}>
+        <Drawer open={props.open}>
             <FlatButton style={style} label="Home" containerElement={<Link to="/" />} />
             <FlatButton style={style} label="About" containerElement={<Link to="/about" />} />
             <FlatButton style={style} label="Courses" containerElement={<Link to="/courses" />} />
